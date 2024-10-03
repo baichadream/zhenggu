@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频播放</title>
+    <style>
+        /* 使视频全屏 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持视频比例 */
+        }
+    </style>
+</head>
+<body>
+    <video id="myVideo" controls>
+        <source src="QQ2024103-232049.mp4" type="video/mp4">
+        您的浏览器不支持 video 标签。
+    </video>
+
+    <script>
+        const video = document.getElementById('myVideo');
+
+        // 自动全屏播放并模拟空格键
+        video.addEventListener('loadeddata', () => {
+            video.play().then(() => {
+                if (video.requestFullscreen) {
+                    video.requestFullscreen();
+                } else if (video.mozRequestFullScreen) { // Firefox
+                    video.mozRequestFullScreen();
+                } else if (video.webkitRequestFullscreen) { // Chrome, Safari and Opera
+                    video.webkitRequestFullscreen();
+                } else if (video.msRequestFullscreen) { // IE/Edge
+                    video.msRequestFullscreen();
+                }
+            }).catch(error => {
+                console.log("视频播放错误:", error);
+            });
+        });
+
+        // 模拟空格键按下
+        function simulateSpaceKey() {
+            const spaceEvent = new KeyboardEvent('keydown', {
+                key: ' ',
+                code: 'Space',
+                keyCode: 32,
+                charCode: 0,
+                bubbles: true
+            });
+            document.dispatchEvent(spaceEvent);
+        }
+
+        // 页面加载后模拟空格键
+        window.onload = function() {
+            simulateSpaceKey();
+        };
+    </script>
+</body>
+</html>
